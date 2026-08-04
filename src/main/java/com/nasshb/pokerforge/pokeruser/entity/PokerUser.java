@@ -1,8 +1,9 @@
 package com.nasshb.pokerforge.pokeruser.entity;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.Id;
+import com.nasshb.pokerforge.pokersession.entity.PokerSession;
+import jakarta.persistence.*;
+
+import java.util.List;
 
 
 @Entity
@@ -10,11 +11,13 @@ public class PokerUser {
 
     @Id
     @GeneratedValue
-    private Long Id;
+    private Integer id;
     private String firstName;
     private String lastName;
     private String password;
     private String email;
+    @OneToMany(mappedBy = "user")
+    private List<PokerSession> sessions;
 
     public PokerUser(){}
 
@@ -26,11 +29,11 @@ public class PokerUser {
     }
 
     public long getId() {
-        return Id;
+        return id;
     }
 
     public void setId(Long id) {
-        Id = id;
+        this.id = id;
     }
 
     public String getFirstName() {
@@ -63,5 +66,13 @@ public class PokerUser {
 
     public void setEmail(String email) {
         this.email = email;
+    }
+
+    public List<PokerSession> getSessions() {
+        return sessions;
+    }
+
+    public void setSessions(List<PokerSession> sessions) {
+        this.sessions = sessions;
     }
 }

@@ -1,38 +1,37 @@
-package com.nasshb.pokerforge.pokersession.entity;
+package com.nasshb.pokerforge.pokersession.dto;
 
+import com.nasshb.pokerforge.pokersession.entity.PokerSession;
 import com.nasshb.pokerforge.pokeruser.entity.PokerUser;
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.Id;
-import jakarta.persistence.ManyToOne;
 
-@Entity
-public class PokerSession {
-
-    @Id
-    @GeneratedValue
+public class PokerSessionResponse {
     private Long id;
     private String sessionName;
     private double buyIn;
     private double winnings;
-    @ManyToOne
     private PokerUser user;
 
-    public PokerSession(){}
+    public PokerSessionResponse(PokerSession session){
+        this.id = session.getId();
+        sessionName = session.getSessionName();
+        buyIn = session.getBuyIn();
+        winnings = session.getWinnings();
+        user = session.getUser();
+    }
 
-    public PokerSession(String name, double buyIn, double winnings, PokerUser user){
-        this.sessionName = name;
-        this.buyIn = buyIn;
-        this.winnings = winnings;
-        this.user = user;
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
     }
 
     public String getSessionName() {
         return sessionName;
     }
 
-    public void setName(String name) {
-        this.sessionName = name;
+    public void setSessionName(String sessionName) {
+        this.sessionName = sessionName;
     }
 
     public double getBuyIn() {
@@ -49,14 +48,6 @@ public class PokerSession {
 
     public void setWinnings(double winnings) {
         this.winnings = winnings;
-    }
-
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
     }
 
     public PokerUser getUser() {

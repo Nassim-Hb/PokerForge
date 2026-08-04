@@ -1,7 +1,10 @@
 package com.nasshb.pokerforge.pokersession.controller;
 
+import com.nasshb.pokerforge.pokersession.dto.PokerSessionRequest;
+import com.nasshb.pokerforge.pokersession.dto.PokerSessionResponse;
 import com.nasshb.pokerforge.pokersession.entity.PokerSession;
 import com.nasshb.pokerforge.pokersession.service.PokerSessionService;
+import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -17,8 +20,9 @@ public class PokerSessionController {
     }
 
     @PostMapping("/sessions")
-    public ResponseEntity<PokerSession> createSession(@RequestBody PokerSession session){
-        PokerSession sessionCreated = sessionService.createSession(session.getName(), session.getBuyIn(), session.getWinnings());
-        return ResponseEntity.status(HttpStatus.CREATED).body(sessionCreated);
+    public ResponseEntity<PokerSessionResponse> createSession(@RequestBody @Valid PokerSessionRequest sessionRequest){
+        PokerSession sessionCreated = sessionService.createSession(sessionRequest.getSessionName(), sessionRequest.getBuyIn(), sessionRequest.getWinnings(), sessionRequest.getUserId());
+        PokerSessionResponse sessionResponse = new PokerSessionResponse(sessionCreated);
+        return ResponseEntity.status(HttpStatus.CREATED).body(sessionResponse);
     }
 }

@@ -1,8 +1,13 @@
 package com.nasshb.pokerforge.pokeruser.service;
 
+import com.nasshb.pokerforge.pokeruser.dto.PokerUserResponse;
 import com.nasshb.pokerforge.pokeruser.entity.PokerUser;
+import com.nasshb.pokerforge.exception.PokerUserNotFoundException;
 import com.nasshb.pokerforge.pokeruser.repository.PokerUserRepository;
 import org.springframework.stereotype.Service;
+
+import java.util.ArrayList;
+import java.util.List;
 
 @Service
 public class PokerUserService {
@@ -16,5 +21,21 @@ public class PokerUserService {
     public PokerUser createUser(String firstName, String lastName, String password, String email){
         PokerUser user = new PokerUser(firstName, lastName, password, email);
         return userRepository.save(user);
+    }
+
+    public PokerUserResponse getUserById(Integer id){
+        PokerUser user = userRepository.findById(id)
+                .orElseThrow(() -> new PokerUserNotFoundException("User not found"));
+        return new PokerUserResponse(user);
+    }
+
+    public List<PokerUserResponse> getAllUsers(){
+        List<PokerUser> userList = userRepository.findAll();
+        List<PokerUserResponse> responseUserList = new ArrayList<>();
+
+        for(PokerUser user : userList){
+            responseUserList.add(new PokerUserResponse(user));
+        }
+        return responseUserList;
     }
 }
