@@ -1,8 +1,10 @@
 package com.nasshb.pokerforge.pokersession.entity;
 
+import com.nasshb.pokerforge.pokeruser.entity.PokerUser;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.Id;
+import jakarta.persistence.ManyToOne;
 
 @Entity
 public class PokerSession {
@@ -10,24 +12,27 @@ public class PokerSession {
     @Id
     @GeneratedValue
     private Long id;
-    private String name;
+    private String sessionName;
     private double buyIn;
     private double winnings;
+    @ManyToOne
+    private PokerUser user;
 
     public PokerSession(){}
 
-    public PokerSession(String name, double buyIn, double winnings){
-        this.name = name;
+    public PokerSession(String name, double buyIn, double winnings, PokerUser user){
+        this.sessionName = name;
         this.buyIn = buyIn;
         this.winnings = winnings;
+        this.user = user;
     }
 
-    public String getName() {
-        return name;
+    public String getSessionName() {
+        return sessionName;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public void setSessionName(String name) {
+        this.sessionName = name;
     }
 
     public double getBuyIn() {
@@ -52,5 +57,13 @@ public class PokerSession {
 
     public void setId(Long id) {
         this.id = id;
+    }
+
+    public PokerUser getUser() {
+        return user;
+    }
+
+    public void setUser(PokerUser user) {
+        this.user = user;
     }
 }

@@ -1,12 +1,16 @@
 package com.nasshb.pokerforge.pokeruser.controller;
 
+import com.nasshb.pokerforge.pokeruser.dto.PokerUserRequest;
+import com.nasshb.pokerforge.pokeruser.dto.PokerUserResponse;
+import com.nasshb.pokerforge.pokeruser.dto.PokerUserUpdateRequest;
 import com.nasshb.pokerforge.pokeruser.entity.PokerUser;
 import com.nasshb.pokerforge.pokeruser.service.PokerUserService;
+import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RestController
 public class PokerUserController {
@@ -18,8 +22,33 @@ public class PokerUserController {
     }
 
     @PostMapping("/users")
-    public ResponseEntity<PokerUser> createUser(@RequestBody PokerUser pokerUser){
-        PokerUser userCreated = userService.createUser(pokerUser.getFirstName(), pokerUser.getLastName(), pokerUser.getPassword(), pokerUser.getEmail());
-        return ResponseEntity.status(HttpStatus.CREATED).body(userCreated);
+    public ResponseEntity<PokerUserResponse> createUser(@RequestBody @Valid PokerUserRequest userRequest){
+        PokerUser userCreated = userService.createUser(userRequest.getFirstName(), userRequest.getLastName(), userRequest.getPassword(), userRequest.getEmail());
+        PokerUserResponse userResponse = new PokerUserResponse(userCreated);
+        return ResponseEntity.status(HttpStatus.CREATED).body(userResponse);
+    }
+
+    @GetMapping("/users/{userId}")
+    public ResponseEntity<PokerUserResponse> getUserById(@PathVariable int userId){
+        PokerUserResponse user = userService.getUserById(userId);
+        return ResponseEntity.ok(user);
+    }
+
+    @GetMapping("/users")
+    public ResponseEntity<List<PokerUserResponse>> getAllUsers(){
+        List<PokerUserResponse> users = userService.getAllUsers();
+        return ResponseEntity.ok(users);
+    }
+
+    @PutMapping("/users/{id}")
+    public ResponseEntity<PokerUserResponse> modifyUser(@PathVariable Integer id, @RequestBody @Valid PokerUserUpdateRequest userRequest){
+        PokerUserResponse user = userService.modifyUser(id, userRequest.getFirstName(), userRequest.getLastName());
+        return ResponseEntity.ok(user);
+    }
+
+    @DeleteMapping("/users/{id}")
+    public ResponseEntity<PokerUserResponse> deleteUser(@PathVariable Integer id){
+        userService.deleteUser(id);
+        return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
     }
 }
