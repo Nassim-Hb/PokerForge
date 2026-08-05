@@ -38,4 +38,19 @@ public class PokerUserService {
         }
         return responseUserList;
     }
+
+    public PokerUserResponse modifyUser(Integer id, String firstName, String lastName){
+        PokerUser user = userRepository.findById(id)
+                .orElseThrow(() -> new PokerUserNotFoundException("User not found"));
+        user.setFirstName(firstName);
+        user.setLastName(lastName);
+        userRepository.save(user);
+        return new PokerUserResponse(user);
+    }
+
+    public void deleteUser(Integer id){
+        PokerUser user = userRepository.findById(id)
+                .orElseThrow(() -> new PokerUserNotFoundException("User not found"));
+        userRepository.delete(user);
+    }
 }

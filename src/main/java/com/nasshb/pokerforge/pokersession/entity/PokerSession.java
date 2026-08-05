@@ -31,7 +31,7 @@ public class PokerSession {
         return sessionName;
     }
 
-    public void setName(String name) {
+    public void setSessionName(String name) {
         this.sessionName = name;
     }
 

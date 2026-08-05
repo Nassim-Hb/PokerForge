@@ -2,6 +2,7 @@ package com.nasshb.pokerforge.pokeruser.controller;
 
 import com.nasshb.pokerforge.pokeruser.dto.PokerUserRequest;
 import com.nasshb.pokerforge.pokeruser.dto.PokerUserResponse;
+import com.nasshb.pokerforge.pokeruser.dto.PokerUserUpdateRequest;
 import com.nasshb.pokerforge.pokeruser.entity.PokerUser;
 import com.nasshb.pokerforge.pokeruser.service.PokerUserService;
 import jakarta.validation.Valid;
@@ -37,5 +38,17 @@ public class PokerUserController {
     public ResponseEntity<List<PokerUserResponse>> getAllUsers(){
         List<PokerUserResponse> users = userService.getAllUsers();
         return ResponseEntity.ok(users);
+    }
+
+    @PutMapping("/users/{id}")
+    public ResponseEntity<PokerUserResponse> modifyUser(@PathVariable Integer id, @RequestBody @Valid PokerUserUpdateRequest userRequest){
+        PokerUserResponse user = userService.modifyUser(id, userRequest.getFirstName(), userRequest.getLastName());
+        return ResponseEntity.ok(user);
+    }
+
+    @DeleteMapping("/users/{id}")
+    public ResponseEntity<PokerUserResponse> deleteUser(@PathVariable Integer id){
+        userService.deleteUser(id);
+        return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
     }
 }

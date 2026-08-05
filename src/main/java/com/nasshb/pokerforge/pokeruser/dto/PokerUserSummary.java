@@ -1,28 +1,18 @@
 package com.nasshb.pokerforge.pokeruser.dto;
 
-import com.nasshb.pokerforge.pokersession.dto.PokerSessionSummary;
-import com.nasshb.pokerforge.pokersession.entity.PokerSession;
 import com.nasshb.pokerforge.pokeruser.entity.PokerUser;
 
-import java.util.List;
-
-public class PokerUserResponse {
-
+public class PokerUserSummary {
     private Integer id;
     private String firstName;
     private String lastName;
     private String email;
-    private List<PokerSessionSummary> sessions;
 
-    public PokerUserResponse(PokerUser user){
+    public PokerUserSummary(PokerUser user){
         this.id = user.getId();
         this.firstName = user.getFirstName();
         this.lastName = user.getLastName();
         this.email = user.getEmail();
-        this.sessions = user.getSessions()
-                .stream()
-                .map(PokerSessionSummary::new)
-                .toList();
     }
 
     public Integer getId() {
@@ -39,9 +29,5 @@ public class PokerUserResponse {
 
     public String getEmail() {
         return email;
-    }
-
-    public List<PokerSessionSummary> getSessions() {
-        return sessions;
     }
 }

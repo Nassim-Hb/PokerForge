@@ -1,6 +1,7 @@
 package com.nasshb.pokerforge.pokersession.dto;
 
 import com.nasshb.pokerforge.pokersession.entity.PokerSession;
+import com.nasshb.pokerforge.pokeruser.dto.PokerUserSummary;
 import com.nasshb.pokerforge.pokeruser.entity.PokerUser;
 
 public class PokerSessionResponse {
@@ -8,14 +9,14 @@ public class PokerSessionResponse {
     private String sessionName;
     private double buyIn;
     private double winnings;
-    private PokerUser user;
+    private PokerUserSummary user;
 
     public PokerSessionResponse(PokerSession session){
         this.id = session.getId();
-        sessionName = session.getSessionName();
-        buyIn = session.getBuyIn();
-        winnings = session.getWinnings();
-        user = session.getUser();
+        this.sessionName = session.getSessionName();
+        this.buyIn = session.getBuyIn();
+        this.winnings = session.getWinnings();
+        this.user = new PokerUserSummary(session.getUser());
     }
 
     public Long getId() {
@@ -50,11 +51,11 @@ public class PokerSessionResponse {
         this.winnings = winnings;
     }
 
-    public PokerUser getUser() {
+    public PokerUserSummary getUser() {
         return user;
     }
 
-    public void setUser(PokerUser user) {
+    public void setUser(PokerUserSummary user) {
         this.user = user;
     }
 }

@@ -28,11 +28,11 @@ public class PokerUser {
         this.email = email;
     }
 
-    public long getId() {
+    public Integer getId() {
         return id;
     }
 
-    public void setId(Long id) {
+    public void setId(Integer id) {
         this.id = id;
     }
 
