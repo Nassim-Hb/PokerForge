@@ -24,11 +24,12 @@ public class PokerSessionService {
         this.userRepository = userRepository;
     }
 
-    public PokerSession createSession(String name, Long buyIn, Long winnings, Integer userId){
+    public PokerSessionResponse createSession(String name, Long buyIn, Long winnings, Integer userId){
         PokerUser user = userRepository.findById(userId)
                 .orElseThrow(() -> new PokerUserNotFoundException("User not found"));
         PokerSession session = new PokerSession(name, buyIn, winnings, user);
-        return sessionRepository.save(session);
+        sessionRepository.save(session);
+        return new PokerSessionResponse(session);
     }
 
     public PokerSessionResponse getSessionById(Integer sessionId){

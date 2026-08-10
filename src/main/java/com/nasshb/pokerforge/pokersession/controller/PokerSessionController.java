@@ -22,9 +22,8 @@ public class PokerSessionController {
 
     @PostMapping("/sessions")
     public ResponseEntity<PokerSessionResponse> createSession(@RequestBody @Valid PokerSessionRequest sessionRequest){
-        PokerSession sessionCreated = sessionService.createSession(sessionRequest.getSessionName(), sessionRequest.getBuyIn(), sessionRequest.getWinnings(), sessionRequest.getUserId());
-        PokerSessionResponse sessionResponse = new PokerSessionResponse(sessionCreated);
-        return ResponseEntity.status(HttpStatus.CREATED).body(sessionResponse);
+        PokerSessionResponse session = sessionService.createSession(sessionRequest.getSessionName(), sessionRequest.getBuyIn(), sessionRequest.getWinnings(), sessionRequest.getUserId());
+        return ResponseEntity.status(HttpStatus.CREATED).body(session);
     }
 
     @GetMapping("/sessions/{id}")
