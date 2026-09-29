@@ -27,7 +27,7 @@ public class PokerSessionController {
     }
 
     @GetMapping("/sessions/{id}")
-    public ResponseEntity<PokerSessionResponse> getSessionById(@PathVariable Integer id){
+    public ResponseEntity<PokerSessionResponse> getSessionById(@PathVariable Long id){
         PokerSessionResponse session = sessionService.getSessionById(id);
         return ResponseEntity.ok(session);
     }
@@ -39,13 +39,13 @@ public class PokerSessionController {
     }
 
     @PutMapping("/sessions/{id}")
-    public ResponseEntity<PokerSessionResponse> modifySession(@PathVariable Integer id, @RequestBody @Valid PokerSessionUpdateRequest sessionRequest){
+    public ResponseEntity<PokerSessionResponse> modifySession(@PathVariable Long id, @RequestBody @Valid PokerSessionUpdateRequest sessionRequest){
         PokerSessionResponse session = sessionService.modifySession(id, sessionRequest.getSessionName(), sessionRequest.getBuyIn(), sessionRequest.getWinnings());
         return ResponseEntity.ok(session);
     }
 
     @DeleteMapping("/sessions/{id}")
-    public ResponseEntity<PokerSessionResponse> deleteSession(@PathVariable Integer id){
+    public ResponseEntity<PokerSessionResponse> deleteSession(@PathVariable Long id){
         sessionService.deleteSession(id);
         return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
     }

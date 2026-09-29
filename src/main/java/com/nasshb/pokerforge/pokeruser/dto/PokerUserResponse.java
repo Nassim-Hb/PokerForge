@@ -8,7 +8,7 @@ import java.util.List;
 
 public class PokerUserResponse {
 
-    private Integer id;
+    private Long id;
     private String firstName;
     private String lastName;
     private String email;
@@ -19,13 +19,18 @@ public class PokerUserResponse {
         this.firstName = user.getFirstName();
         this.lastName = user.getLastName();
         this.email = user.getEmail();
-        this.sessions = user.getSessions()
-                .stream()
-                .map(PokerSessionSummary::new)
-                .toList();
+        if(this.sessions == null){
+            this.sessions = List.of();
+        }
+        else {
+            this.sessions = user.getSessions()
+                    .stream()
+                    .map(PokerSessionSummary::new)
+                    .toList();
+        }
     }
 
-    public Integer getId() {
+    public Long getId() {
         return id;
     }
 

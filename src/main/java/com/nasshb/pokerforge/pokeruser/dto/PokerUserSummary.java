@@ -3,7 +3,7 @@ package com.nasshb.pokerforge.pokeruser.dto;
 import com.nasshb.pokerforge.pokeruser.entity.PokerUser;
 
 public class PokerUserSummary {
-    private Integer id;
+    private Long id;
     private String firstName;
     private String lastName;
     private String email;
@@ -15,7 +15,7 @@ public class PokerUserSummary {
         this.email = user.getEmail();
     }
 
-    public Integer getId() {
+    public Long getId() {
         return id;
     }
 
