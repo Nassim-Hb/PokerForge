@@ -47,40 +47,42 @@ public class PokerSessionTest {
                 "azerty",
                 "nassim.hb@gmail.com"
         );
-        user.setId(1);
+        user.setId(1L);
         PokerSession session = new PokerSession(
                 "Mini its time",
                 5,
                 25,
                 user
         );
-        when(userRepository.findById(1))
+        when(userRepository.findById(1L))
                 .thenReturn(Optional.of(user));
         when(sessionRepository.save(any(PokerSession.class)))
                 .thenReturn(session);
 
         //ACT
-        PokerSessionResponse createdSession = sessionService.createSession("Mini its time", 5L, 25L, 1);
+        PokerSessionResponse createdSession = sessionService.createSession("Mini its time", 5L, 25L, 1L);
 
         //ASSERT
         assertThat(createdSession.getSessionName()).isEqualTo("Mini its time");
         assertThat(createdSession.getBuyIn()).isEqualTo(5);
         assertThat(createdSession.getWinnings()).isEqualTo(25);
-        assertThat(createdSession.getUser()).isEqualTo(user);
-        verify(userRepository).findById(1);
+        assertThat(createdSession.getUser().getId()).isEqualTo(1L);
+        assertThat(createdSession.getUser().getFirstName()).isEqualTo("Nassim");
+        assertThat(createdSession.getUser().getLastName()).isEqualTo("Hb");
+        verify(userRepository).findById(1L);
         verify(sessionRepository).save(any(PokerSession.class));
     }
 
     @Test
     void sessionFailedToCreate(){
         //ARRANGE
-        when(userRepository.findById(999))
+        when(userRepository.findById(999L))
                 .thenReturn(Optional.empty());
 
         //ARRANGE
         assertThrows(
                 PokerUserNotFoundException.class,
-                () -> sessionService.createSession("Mini its time", 5L, 25L, 999)
+                () -> sessionService.createSession("Mini its time", 5L, 25L, 999L)
         );
     }
 
@@ -93,7 +95,7 @@ public class PokerSessionTest {
                 "azerty",
                 "nassim.hb@gmail.com"
         );
-        user.setId(1);
+        user.setId(1L);
         PokerSession session = new PokerSession(
                 "Mini its time",
                 5,
@@ -101,11 +103,11 @@ public class PokerSessionTest {
                 user
         );
         session.setId(1L);
-        when(sessionRepository.findById(1))
+        when(sessionRepository.findById(1L))
                 .thenReturn(Optional.of(session));
 
         //ACT
-        PokerSessionResponse sessionRetrieved = sessionService.getSessionById(1);
+        PokerSessionResponse sessionRetrieved = sessionService.getSessionById(1L);
 
         //ASSERT
         assertThat(sessionRetrieved.getSessionName()).isEqualTo("Mini its time");
@@ -116,21 +118,21 @@ public class PokerSessionTest {
         assertThat(sessionRetrieved.getUser().getLastName()).isEqualTo("Hb");
 
 
-        verify(sessionRepository).findById(1);
+        verify(sessionRepository).findById(1L);
     }
 
     @Test
     void retrieveASessionByHisIdFail(){
         //ARRANGE
-        when(sessionRepository.findById(999))
+        when(sessionRepository.findById(999L))
                 .thenReturn(Optional.empty());
 
         //ASSERT
         assertThrows(
              PokerSessionNotFoundException.class,
-                () -> sessionService.getSessionById(999)
+                () -> sessionService.getSessionById(999L)
         );
-        verify(sessionRepository).findById(999);
+        verify(sessionRepository).findById(999L);
     }
 
     @Test
@@ -142,7 +144,7 @@ public class PokerSessionTest {
                 "azerty",
                 "nassim.hb@gmail.com"
         );
-        user.setId(1);
+        user.setId(1L);
         PokerSession session = new PokerSession(
                 "Mini its time",
                 5,
@@ -182,7 +184,7 @@ public class PokerSessionTest {
                 "azerty",
                 "nassim.hb@gmail.com"
         );
-        user.setId(1);
+        user.setId(1L);
         PokerSession session = new PokerSession(
                 "Mini its time",
                 5,
@@ -190,34 +192,34 @@ public class PokerSessionTest {
                 user
         );
         session.setId(1L);
-        when(sessionRepository.findById(1))
+        when(sessionRepository.findById(1L))
                 .thenReturn(Optional.of(session));
         when(sessionRepository.save(any(PokerSession.class)))
                 .thenReturn(session);
 
         //ACT
-        PokerSessionResponse sessionModified = sessionService.modifySession(1, "Mini its time 2", 5L, 25L);
+        PokerSessionResponse sessionModified = sessionService.modifySession(1L, "Mini its time 2", 5L, 25L);
 
         //ASSERT
         assertThat(sessionModified.getSessionName()).isEqualTo("Mini its time 2");
         assertThat(sessionModified.getBuyIn()).isEqualTo(5);
         assertThat(sessionModified.getWinnings()).isEqualTo(25);
-        verify(sessionRepository).findById(1);
+        verify(sessionRepository).findById(1L);
         verify(sessionRepository).save(session);
     }
 
     @Test
     void sessionNotFoundForModifyIt(){
         //ARRANGE
-        when(sessionRepository.findById(999))
+        when(sessionRepository.findById(999L))
                 .thenReturn(Optional.empty());
 
         //ASSERT
         assertThrows(
                 PokerSessionNotFoundException.class,
-                () -> sessionService.modifySession(999, "Mini its time", 5L, 25L)
+                () -> sessionService.modifySession(999L, "Mini its time", 5L, 25L)
         );
-        verify(sessionRepository).findById(999);
+        verify(sessionRepository).findById(999L);
     }
 
     @Test
@@ -229,7 +231,7 @@ public class PokerSessionTest {
                 "azerty",
                 "nassim.hb@gmail.com"
         );
-        user.setId(1);
+        user.setId(1L);
         PokerSession session = new PokerSession(
                 "Mini its time",
                 5,
@@ -237,28 +239,28 @@ public class PokerSessionTest {
                 user
         );
         session.setId(1L);
-        when(sessionRepository.findById(1))
+        when(sessionRepository.findById(1L))
                 .thenReturn(Optional.of(session));
 
         //ACT
-        sessionService.deleteSession(1);
+        sessionService.deleteSession(1L);
 
         //ASSERT
-        verify(sessionRepository).findById(1);
+        verify(sessionRepository).findById(1L);
         verify(sessionRepository).delete(session);
     }
 
     @Test
     void sessionNotFoundForDeleteIt(){
         //ARRANGE
-        when(sessionRepository.findById(999))
+        when(sessionRepository.findById(999L))
                 .thenReturn(Optional.empty());
 
         //ASSERT
         assertThrows(
                 PokerSessionNotFoundException.class,
-                () -> sessionService.deleteSession(999)
+                () -> sessionService.deleteSession(999L)
         );
-        verify(sessionRepository).findById(999);
+        verify(sessionRepository).findById(999L);
     }
 }

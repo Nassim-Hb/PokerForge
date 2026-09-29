@@ -1,5 +1,6 @@
 package com.nasshb.pokerforge.pokeruser.controller;
 
+import com.nasshb.pokerforge.pokersession.dto.PokerSessionResponse;
 import com.nasshb.pokerforge.pokeruser.dto.PokerUserRequest;
 import com.nasshb.pokerforge.pokeruser.dto.PokerUserResponse;
 import com.nasshb.pokerforge.pokeruser.dto.PokerUserUpdateRequest;
@@ -23,13 +24,12 @@ public class PokerUserController {
 
     @PostMapping("/users")
     public ResponseEntity<PokerUserResponse> createUser(@RequestBody @Valid PokerUserRequest userRequest){
-        PokerUser userCreated = userService.createUser(userRequest.getFirstName(), userRequest.getLastName(), userRequest.getPassword(), userRequest.getEmail());
-        PokerUserResponse userResponse = new PokerUserResponse(userCreated);
-        return ResponseEntity.status(HttpStatus.CREATED).body(userResponse);
+        PokerUserResponse userCreated = userService.createUser(userRequest.getFirstName(), userRequest.getLastName(), userRequest.getPassword(), userRequest.getEmail());
+        return ResponseEntity.status(HttpStatus.CREATED).body(userCreated);
     }
 
     @GetMapping("/users/{userId}")
-    public ResponseEntity<PokerUserResponse> getUserById(@PathVariable int userId){
+    public ResponseEntity<PokerUserResponse> getUserById(@PathVariable Long userId){
         PokerUserResponse user = userService.getUserById(userId);
         return ResponseEntity.ok(user);
     }
@@ -41,14 +41,20 @@ public class PokerUserController {
     }
 
     @PutMapping("/users/{id}")
-    public ResponseEntity<PokerUserResponse> modifyUser(@PathVariable Integer id, @RequestBody @Valid PokerUserUpdateRequest userRequest){
+    public ResponseEntity<PokerUserResponse> modifyUser(@PathVariable Long id, @RequestBody @Valid PokerUserUpdateRequest userRequest){
         PokerUserResponse user = userService.modifyUser(id, userRequest.getFirstName(), userRequest.getLastName());
         return ResponseEntity.ok(user);
     }
 
     @DeleteMapping("/users/{id}")
-    public ResponseEntity<PokerUserResponse> deleteUser(@PathVariable Integer id){
+    public ResponseEntity<PokerUserResponse> deleteUser(@PathVariable Long id){
         userService.deleteUser(id);
         return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
+    }
+
+    @GetMapping("/users/{userId}/sessions")
+    public ResponseEntity<List<PokerSessionResponse>> getAllSessionsFromASpecificUser(@PathVariable Long userId){
+        List<PokerSessionResponse> userSessions = userService.getAllSessionsFromASpecificUser(userId);
+        return ResponseEntity.ok(userSessions);
     }
 }

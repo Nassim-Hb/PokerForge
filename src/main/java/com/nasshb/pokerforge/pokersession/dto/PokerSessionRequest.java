@@ -15,7 +15,7 @@ public class PokerSessionRequest {
     private Long winnings;
     @NotNull
     @PositiveOrZero
-    private Integer userId;
+    private Long userId;
 
     public PokerSessionRequest(){}
 
@@ -31,7 +31,7 @@ public class PokerSessionRequest {
         return winnings;
     }
 
-    public Integer getUserId() {
+    public Long getUserId() {
         return userId;
     }
 }

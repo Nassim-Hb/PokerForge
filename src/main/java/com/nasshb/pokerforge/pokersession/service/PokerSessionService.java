@@ -24,7 +24,7 @@ public class PokerSessionService {
         this.userRepository = userRepository;
     }
 
-    public PokerSessionResponse createSession(String name, Long buyIn, Long winnings, Integer userId){
+    public PokerSessionResponse createSession(String name, Long buyIn, Long winnings, Long userId){
         PokerUser user = userRepository.findById(userId)
                 .orElseThrow(() -> new PokerUserNotFoundException("User not found"));
         PokerSession session = new PokerSession(name, buyIn, winnings, user);
@@ -32,7 +32,7 @@ public class PokerSessionService {
         return new PokerSessionResponse(session);
     }
 
-    public PokerSessionResponse getSessionById(Integer sessionId){
+    public PokerSessionResponse getSessionById(Long sessionId){
         PokerSession session = sessionRepository.findById(sessionId)
                 .orElseThrow(() -> new PokerSessionNotFoundException("Session not found"));
         return new PokerSessionResponse(session);
@@ -48,7 +48,7 @@ public class PokerSessionService {
         return sessionsResponse;
     }
 
-    public PokerSessionResponse modifySession(Integer id, String sessionName, Long buyIn, Long winnings){
+    public PokerSessionResponse modifySession(Long id, String sessionName, Long buyIn, Long winnings){
         PokerSession session = sessionRepository.findById(id)
                 .orElseThrow(() -> new PokerSessionNotFoundException("Session not found"));
         session.setSessionName(sessionName);
@@ -58,7 +58,7 @@ public class PokerSessionService {
         return new PokerSessionResponse(session);
     }
 
-    public void deleteSession(Integer id){
+    public void deleteSession(Long id){
         PokerSession session = sessionRepository.findById(id)
                 .orElseThrow(() -> new PokerSessionNotFoundException("Session not found"));
         sessionRepository.delete(session);
